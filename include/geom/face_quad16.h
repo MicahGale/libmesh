@@ -17,8 +17,8 @@
 
 
 
-#ifndef LIBMESH_FACE_QUAD4_H
-#define LIBMESH_FACE_QUAD4_H
+#ifndef LIBMESH_FACE_QUAD16_H
+#define LIBMESH_FACE_QUAD16_H
 
 // Local includes
 #include "libmesh/libmesh_common.h"
@@ -28,29 +28,31 @@ namespace libMesh
 {
 
 /**
- * The \p QUAD4 is an element in 2D composed of 4 nodes.
+ * The \p QUAD16 is an element in 2D composed of 16 nodes.
  * It is numbered like this:
  *
  * \verbatim
- *          3           2
- *   QUAD4: o-----------o
+ *          3  12 11 10 2
+ *   QUAD4: o--o--o--o--o
+ *          |           |          
+ *      13  o           o 9         
  *          |           |           eta
- *          |           |            ^
+ *      14  o           o 8          ^
  *          |           |            |
- *          |           |            |
+ *      15  o           o 7          |
  *          |           |            o---> xi
- *          o-----------o
- *          0           1
+ *          o--o--o--o--o
+ *          0  4  5  6  1
  * \endverbatim
  *
  * (xi, eta) in [-1,1]^2 are the reference element coordinates associated with
  * the given numbering.
  *
- * \author Benjamin S. Kirk
- * \date 2002
+ * \author Benjamin S. Kirk, Micah D. Gale
+ * \date 2026
  * \brief A 2D quadrilateral element with 4 nodes.
  */
-class Quad4 : public Quad
+class Quad16 : public Quad
 {
 public:
 
@@ -58,19 +60,19 @@ public:
    * Constructor.  By default this element has no parent.
    */
   explicit
-  Quad4 (Elem * p=nullptr) :
+  Quad16 (Elem * p=nullptr) :
     Quad(num_nodes, p, _nodelinks_data) {}
 
-  Quad4 (Quad4 &&) = delete;
-  Quad4 (const Quad4 &) = delete;
-  Quad4 & operator= (const Quad4 &) = delete;
-  Quad4 & operator= (Quad4 &&) = delete;
-  virtual ~Quad4() = default;
+  Quad16 (Quad16 &&) = delete;
+  Quad16 (const Quad16 &) = delete;
+  Quad16 & operator= (const Quad16 &) = delete;
+  Quad16 & operator= (Quad16 &&) = delete;
+  virtual ~Quad16() = default;
 
   /**
-   * \returns \p QUAD4.
+   * \returns \p QUAD16.
    */
-  virtual ElemType type () const override { return QUAD4; }
+  virtual ElemType type () const override { return QUAD16; }
 
   /**
    * \returns 1.
@@ -143,10 +145,10 @@ public:
                             std::vector<dof_id_type> & conn) const override;
 
   /**
-   * Geometric constants for Quad4.
+   * Geometric constants for Quad16.
    */
-  static const int num_nodes = 4;
-  static const int nodes_per_side = 2;
+  static const int num_nodes = 16;
+  static const int nodes_per_side = 4;
 
   /**
    * This maps the \f$ j^{th} \f$ node of the \f$ i^{th} \f$ side to
@@ -214,4 +216,4 @@ protected:
 
 } // namespace libMesh
 
-#endif // LIBMESH_FACE_QUAD4_H
+#endif // LIBMESH_FACE_QUAD16_H
