@@ -34,14 +34,15 @@ const int Quad16::nodes_per_side;
 
 const unsigned int Quad16::side_nodes_map[Quad16::num_sides][Quad16::nodes_per_side] =
   {
-    {0, 1}, // Side 0
-    {1, 2}, // Side 1
-    {2, 3}, // Side 2
-    {3, 0}  // Side 3
+    {0,  4,  5,  6, 1}, // Side 0
+    {1,  7,  8,  9, 2}, // Side 1
+    {2, 10, 11, 12, 3}, // Side 2
+    {3, 13, 14, 15, 0}  // Side 3
   };
 
 #ifdef LIBMESH_ENABLE_AMR
 
+// TODO what is this?
 const Real Quad16::_embedding_matrix[Quad16::num_children][Quad16::num_nodes][Quad16::num_nodes] =
   {
     // embedding matrix for child 0
@@ -203,6 +204,7 @@ bool Quad16::has_invertible_map(Real tol) const
 
 
 Order Quad16::default_order() const
+// TODO does this make sense here?
 {
   return FIRST;
 }
