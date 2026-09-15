@@ -28,11 +28,11 @@ namespace libMesh
 
 
 // ------------------------------------------------------------
-// Quad4 class static member initialization
-const int Quad4::num_nodes;
-const int Quad4::nodes_per_side;
+// Quad16 class static member initialization
+const int Quad16::num_nodes;
+const int Quad16::nodes_per_side;
 
-const unsigned int Quad4::side_nodes_map[Quad4::num_sides][Quad4::nodes_per_side] =
+const unsigned int Quad16::side_nodes_map[Quad16::num_sides][Quad16::nodes_per_side] =
   {
     {0, 1}, // Side 0
     {1, 2}, // Side 1
@@ -42,7 +42,7 @@ const unsigned int Quad4::side_nodes_map[Quad4::num_sides][Quad4::nodes_per_side
 
 #ifdef LIBMESH_ENABLE_AMR
 
-const Real Quad4::_embedding_matrix[Quad4::num_children][Quad4::num_nodes][Quad4::num_nodes] =
+const Real Quad16::_embedding_matrix[Quad16::num_children][Quad16::num_nodes][Quad16::num_nodes] =
   {
     // embedding matrix for child 0
     {
@@ -88,25 +88,25 @@ const Real Quad4::_embedding_matrix[Quad4::num_children][Quad4::num_nodes][Quad4
 
 
 // ------------------------------------------------------------
-// Quad4 class member functions
+// Quad16 class member functions
 
-bool Quad4::is_vertex(const unsigned int libmesh_dbg_var(n)) const
+bool Quad16::is_vertex(const unsigned int libmesh_dbg_var(n)) const
 {
   libmesh_assert_not_equal_to (n, invalid_uint);
   return true;
 }
 
-bool Quad4::is_edge(const unsigned int) const
+bool Quad16::is_edge(const unsigned int) const
 {
   return false;
 }
 
-bool Quad4::is_face(const unsigned int) const
+bool Quad16::is_face(const unsigned int) const
 {
   return false;
 }
 
-bool Quad4::is_node_on_side(const unsigned int n,
+bool Quad16::is_node_on_side(const unsigned int n,
                             const unsigned int s) const
 {
   libmesh_assert_less (s, n_sides());
@@ -116,19 +116,19 @@ bool Quad4::is_node_on_side(const unsigned int n,
 }
 
 std::vector<unsigned>
-Quad4::nodes_on_side(const unsigned int s) const
+Quad16::nodes_on_side(const unsigned int s) const
 {
   libmesh_assert_less(s, n_sides());
   return {std::begin(side_nodes_map[s]), std::end(side_nodes_map[s])};
 }
 
 std::vector<unsigned>
-Quad4::nodes_on_edge(const unsigned int e) const
+Quad16::nodes_on_edge(const unsigned int e) const
 {
   return nodes_on_side(e);
 }
 
-bool Quad4::has_affine_map() const
+bool Quad16::has_affine_map() const
 {
   Point v = this->point(3) - this->point(0);
   return (v.relative_fuzzy_equals(this->point(2) - this->point(1), affine_tol));
@@ -136,7 +136,7 @@ bool Quad4::has_affine_map() const
 
 
 
-bool Quad4::has_invertible_map(Real tol) const
+bool Quad16::has_invertible_map(Real tol) const
 {
   // At the moment this only makes sense for Lagrange elements
   libmesh_assert_equal_to(this->mapping_type(), LAGRANGE_MAP);
@@ -156,7 +156,7 @@ bool Quad4::has_invertible_map(Real tol) const
   // f(xi, eta) = (v1 + xi*v2 + eta*v3)
   // at the midpoint (xi, eta) = (1/2, 1/2) of the element. (Note that
   // we are using the [0,1]^2 reference element definition for the
-  // Quad4 instead of the [-1,1]^2 reference element that is typically
+  // Quad16 instead of the [-1,1]^2 reference element that is typically
   // used for FEM calculations.) We use this as a "reference" vector
   // and compare the sign of dot(n,f) at each vertex.
   Point n = v1 + Real(.5) * (v2 + v3);
@@ -202,29 +202,29 @@ bool Quad4::has_invertible_map(Real tol) const
 
 
 
-Order Quad4::default_order() const
+Order Quad16::default_order() const
 {
   return FIRST;
 }
 
 
 
-std::unique_ptr<Elem> Quad4::build_side_ptr (const unsigned int i)
+std::unique_ptr<Elem> Quad16::build_side_ptr (const unsigned int i)
 {
-  return this->simple_build_side_ptr<Edge2, Quad4>(i);
+  return this->simple_build_side_ptr<Edge2, Quad16>(i);
 }
 
 
 
-void Quad4::build_side_ptr (std::unique_ptr<Elem> & side,
+void Quad16::build_side_ptr (std::unique_ptr<Elem> & side,
                             const unsigned int i)
 {
-  this->simple_build_side_ptr<Quad4>(side, i, EDGE2);
+  this->simple_build_side_ptr<Quad16>(side, i, EDGE2);
 }
 
 
 
-void Quad4::connectivity(const unsigned int libmesh_dbg_var(sf),
+void Quad16::connectivity(const unsigned int libmesh_dbg_var(sf),
                          const IOPackage iop,
                          std::vector<dof_id_type> & conn) const
 {
@@ -261,7 +261,7 @@ void Quad4::connectivity(const unsigned int libmesh_dbg_var(sf),
 
 
 
-Point Quad4::true_centroid () const
+Point Quad16::true_centroid () const
 {
   // Convenient references to our points
   const Point
@@ -309,7 +309,7 @@ Point Quad4::true_centroid () const
 
 
 
-Real Quad4::volume () const
+Real Quad16::volume () const
 {
   // This specialization is good for Lagrange mappings only in general
   // (consider that we might have a non-planar quad with non-equal
@@ -353,13 +353,13 @@ Real Quad4::volume () const
 }
 
 BoundingBox
-Quad4::loose_bounding_box () const
+Quad16::loose_bounding_box () const
 {
   return Elem::loose_bounding_box();
 }
 
 
-void Quad4::permute(unsigned int perm_num)
+void Quad16::permute(unsigned int perm_num)
 {
   libmesh_assert_less (perm_num, 4);
 
@@ -371,7 +371,7 @@ void Quad4::permute(unsigned int perm_num)
 }
 
 
-void Quad4::flip(BoundaryInfo * boundary_info)
+void Quad16::flip(BoundaryInfo * boundary_info)
 {
   libmesh_assert(boundary_info);
 
@@ -383,7 +383,7 @@ void Quad4::flip(BoundaryInfo * boundary_info)
 }
 
 
-ElemType Quad4::side_type (const unsigned int libmesh_dbg_var(s)) const
+ElemType Quad16::side_type (const unsigned int libmesh_dbg_var(s)) const
 {
   libmesh_assert_less (s, 4);
   return EDGE2;
@@ -391,7 +391,7 @@ ElemType Quad4::side_type (const unsigned int libmesh_dbg_var(s)) const
 
 
 Point
-Quad4::side_vertex_average_normal(const unsigned int s) const
+Quad16::side_vertex_average_normal(const unsigned int s) const
 {
   libmesh_assert_less (s, 4);
   libmesh_assert_equal_to(this->mapping_type(), LAGRANGE_MAP);
