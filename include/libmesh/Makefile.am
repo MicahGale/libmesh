@@ -144,6 +144,7 @@ BUILT_SOURCES = \
         face_inf_quad6.h \
         face_polygon.h \
         face_quad.h \
+        face_quad16.h \
         face_quad4.h \
         face_quad4_shell.h \
         face_quad8.h \
@@ -1039,6 +1040,9 @@ face_polygon.h: $(top_srcdir)/include/geom/face_polygon.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 face_quad.h: $(top_srcdir)/include/geom/face_quad.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+face_quad16.h: $(top_srcdir)/include/geom/face_quad16.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 face_quad4.h: $(top_srcdir)/include/geom/face_quad4.h
@@ -2174,3 +2178,4 @@ xdr_cxx.h: $(top_srcdir)/include/utils/xdr_cxx.h
 
 parallel_communicator_specializations: $(top_srcdir)/include/timpi_shims/parallel_communicator_specializations
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
