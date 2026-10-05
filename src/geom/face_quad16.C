@@ -17,7 +17,7 @@
 
 // Local includes
 #include "libmesh/edge_edge2.h"
-#include "libmesh/face_quad4.h"
+#include "libmesh/face_quad16.h"
 #include "libmesh/enum_io_package.h"
 #include "libmesh/enum_order.h"
 
