@@ -41,6 +41,7 @@ enum ElemType : int {
                QUAD4 = 5,
                QUAD8 = 6,
                QUAD9 = 7,
+	       QUAD16 = 8,
                // 3D
                TET4 = 8,
                TET10 = 9,
