@@ -148,7 +148,7 @@ public:
    * Geometric constants for Quad16.
    */
   static const int num_nodes = 16;
-  static const int nodes_per_side = 4;
+  static const int nodes_per_side = 5;
 
   /**
    * This maps the \f$ j^{th} \f$ node of the \f$ i^{th} \f$ side to
