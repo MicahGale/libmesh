@@ -604,6 +604,7 @@ void MeshTools::Generation::build_cube(UnstructuredMesh & mesh,
           case QUADSHELL8:
           case QUAD9:
           case QUADSHELL9:
+          case QUAD16:
             {
               mesh.reserve_elem (nx*ny);
               break;
@@ -664,7 +665,11 @@ void MeshTools::Generation::build_cube(UnstructuredMesh & mesh,
               mesh.reserve_nodes (4 + 3*nx*ny + 2*nx + 2*ny);
               break;
             }
-
+	  case QUAD16:
+	    {
+              mesh.reserve_nodes( (4*nx+1)*(4*ny+1) );
+              break;
+            }
           default:
             libmesh_error_msg("ERROR: Unrecognized 2D element type == " << Utility::enum_to_string(type));
           }
